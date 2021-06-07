@@ -24,8 +24,10 @@ describe('Flood Fill', () => {
   ];
 
   it('should flood fill', () => {
-    const x = 4, y = 4, newColor = 3
-    const changed = flood(screen, x, y, newColor)
-    expect(expected).toEqual(changed)
-  })
-})
+    const x = 4;
+    const y = 4;
+    const newColor = 3;
+    const changed = flood(screen, x, y, newColor);
+    expect(expected).toEqual(changed);
+  });
+});

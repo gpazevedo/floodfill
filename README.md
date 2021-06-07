@@ -7,8 +7,8 @@ Given a matrix representing a screen, where the value of each element represents
 ### Setup
 
 ```bash
- git clone https://github.com/gpazevedo/floodfill folder # clones the repository
- yarn install                                            # installs the dependencies
+ git clone https://github.com/gpazevedo/floodfill  # clones the repository
+ yarn install                                      # installs the dependencies
 ```
 
 ### Workflow

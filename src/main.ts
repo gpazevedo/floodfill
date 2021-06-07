@@ -1,36 +1,31 @@
-export function flood(matrix: number[][], x: number, y: number, newColor: number) {
-  const oldColor = matrix[x][y]
-  if (oldColor === newColor) return matrix
+import { Screen, Position } from './Screen';
 
-  const maxX = matrix.length
-  const maxY = matrix[0].length
-  const checked = new Set()
-
-  const checkAdj = (x: number, y: number, color: number) =>
-    x >= 0 && y >= 0 && x < maxX && y < maxY && matrix[x][y] === color
-
-  const paint = (x: number, y: number, oldColor: number, newColor: number) => {
-    if (checkAdj(x, y, oldColor)) {
-      matrix[x][y] = newColor
-      adjacents(x, y, oldColor, newColor)
+export function flood(matrix: number[][], x: number, y: number, newColor: number): number[][] {
+  const paint = (pos: Position, oldColor: number, newColor: number) => {
+    if (myScreen.getColor(pos) === oldColor) {
+      myScreen.setColor(pos, newColor);
+      adjacents(pos, oldColor, newColor);
     }
-  }
+  };
 
-  const adjacents = (x: number, y: number, oldColor: number, newColor: number) => {
-    if (checked.has(JSON.stringify({ x, y }))) return
-    checked.add(JSON.stringify({ x, y }))
+  const adjacents = (pos: Position, oldColor: number, newColor: number) => {
+    if (checked.has(JSON.stringify(pos))) return;
+    checked.add(JSON.stringify(pos));
 
-    paint(x - 1, y, oldColor, newColor)
+    myScreen.neighbors(pos).forEach((pos) => {
+      paint(pos, oldColor, newColor);
+    });
+  };
 
-    paint(x + 1, y, oldColor, newColor)
+  const myScreen = new Screen(matrix);
+  const initial = new Position(x, y);
 
-    paint(x, y - 1, oldColor, newColor)
+  const oldColor = myScreen.getColor(initial);
 
-    paint(x, y + 1, oldColor, newColor)
-  }
+  if (oldColor === newColor) return matrix;
 
-  matrix[x][y] = newColor
-  adjacents(x, y, oldColor, newColor)
+  const checked = new Set();
 
-  return matrix
+  paint(initial, oldColor, newColor);
+  return matrix;
 }
